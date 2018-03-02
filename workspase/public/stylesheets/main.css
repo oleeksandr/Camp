@@ -1,11 +1,23 @@
 .thumbnail{
     padding: 0;
 }
+
 .thumbnail img{
     width: 100%;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
+
 .btn.disabled{
     border: 0px;
+}
+
+.not-logged-in-user{
+    padding-left: 20px;
+    color: rgba(231, 14, 14, 0.527);
+}
+
+.campground-username{
+    font-size: larger;
+    font-weight: bolder;
 }
