@@ -45,7 +45,6 @@ app.post("/campgrounds", isLoggedIn, function (req, res) {
         description: description,
         author: author
     };
-    console.log(author);
 
     //SAVE NEW OBJECT TO BD
     Campground.create(newCapm, function (err, campground) {
@@ -69,7 +68,7 @@ app.get("/campgrounds/new", isLoggedIn, function (req, res) {
 });
 
 //============================================================
-//SHOW - SHOWS MORE INFO ABOUT ONE CAMPGROUND
+//SHOW - SHOWS MORE INFO ABOUT A SPECIFIC CAMPGROUND
 //============================================================
 app.get("/campgrounds/:id", function (req, res) {
 
@@ -79,12 +78,66 @@ app.get("/campgrounds/:id", function (req, res) {
             //IFF ERROR
             console.log("SOMETHING WENT WRONG!");
             console.log(err);
+            res.redirect("/campgrounds")
         } else {
             console.log("WE GOT DATA ABOUT CAMPGROUND WITH SOME ID FROM DB:");
             //IF ALL IS OK, RENDER SHOW TEMPLATE WITH THAT CAMPGROUND
             res.render("campgrounds/show", {campground:foundCampground});
         }
-    })
+    });
+});
+
+//============================================================
+//EDIT - SHOW FORM TO EDIT EXISTING CAMPGROUND
+//============================================================
+app.get("/campgrounds/:id/edit", chekPermitions, function(req, res){
+    Campground.findById(req.params.id, function(err, foundCampground) {
+        if (err) {
+            //IFF ERROR
+            console.log("SOMETHING WENT WRONG!");
+            console.log(err);
+            res.redirect('/campgrounds/');
+        } else {
+                console.log("WE GOT DATA ABOUT CAMPGROUND WITH SOME ID FROM DB AND RENDER EDIT PAGE:");
+                //IF ALL IS OK, RENDER EDIT PAGE WITH CAMPGROUND DATA
+                res.render('campgrounds/edit', {campground:foundCampground});
+        }
+    });
+});
+
+//============================================================
+//UPDATE - UPDATE A SPECIFIC CAMPGROUND
+//============================================================
+app.put("/campgrounds/:id/", function(req, res){
+    Campground.findByIdAndUpdate(req.params.id, req.body.campground, function (err, updatedCampground) {
+        if (err) {
+            //IFF ERROR
+            console.log("SOMETHING WENT WRONG!");
+            console.log(err);
+            res.redirect('/campgrounds/');
+        } else {
+            console.log("WE UPDATE DATA ABOUT CAMPGROUND WITH SOME ID FROM DB:");
+            //IF ALL IS OK, REDIRECT TO SHOW ROUTE WITH CAMPGROUND
+            res.redirect('/campgrounds/' + updatedCampground._id);
+        }
+    });
+});
+
+//============================================================
+//DESTROY - DELETE A SPECIFIC CAMPGROUND
+//============================================================
+app.delete("/campgrounds/:id/", function(req, res){
+    Campground.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            //IFF ERROR
+            console.log("SOMETHING WENT WRONG!");
+            console.log(err);
+            res.redirect('/campgrounds/');
+        } else {
+            console.log("WE DELETE DATA ABOUT CAMPGROUND WITH SOME ID FROM DB:");
+            res.redirect('/campgrounds/');
+        }
+    });
 });
 
 //============================================================
@@ -95,6 +148,31 @@ function isLoggedIn(req, res, next){
         return next();
     }
     res.redirect('/login');
+}
+
+function chekPermitions(req, res, next){
+    if(req.isAuthenticated()){
+        //IF USER NOT OWNER OF THIS CAMPGROUND HE HAVE NO PERMITION TO EDIT HIM
+        Campground.findById(req.params.id, function (err, foundCampground) {
+            if (err) {
+                //IFF ERROR
+                console.log("SOMETHING WENT WRONG!");
+                console.log(err);
+                res.redirect('/campgrounds/');
+            } else {
+                // IF USER LOGGED IN AND CREATED THIS CAMPGROUND DO WHAT YOU WANT TO DO
+                if(foundCampground.author.id.equals(req.user._id)){
+                    next();
+                } else {
+                    // res.send('You do not create this campground');
+                    res.redirect('back');
+                }
+            }
+        });
+    } else {
+        // res.send('You are not logged in');
+        res.redirect('back');
+    }
 }
 
 module.exports = app;
