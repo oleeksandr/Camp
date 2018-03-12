@@ -90,7 +90,7 @@ app.get("/campgrounds/:id", function (req, res) {
 //============================================================
 //EDIT - SHOW FORM TO EDIT EXISTING CAMPGROUND
 //============================================================
-app.get("/campgrounds/:id/edit", chekPermitions, function(req, res){
+app.get("/campgrounds/:id/edit", checkPermitions, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground) {
         if (err) {
             //IFF ERROR
@@ -108,7 +108,7 @@ app.get("/campgrounds/:id/edit", chekPermitions, function(req, res){
 //============================================================
 //UPDATE - UPDATE A SPECIFIC CAMPGROUND
 //============================================================
-app.put("/campgrounds/:id/", function(req, res){
+app.put("/campgrounds/:id/", checkPermitions, function(req, res){
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function (err, updatedCampground) {
         if (err) {
             //IFF ERROR
@@ -126,7 +126,7 @@ app.put("/campgrounds/:id/", function(req, res){
 //============================================================
 //DESTROY - DELETE A SPECIFIC CAMPGROUND
 //============================================================
-app.delete("/campgrounds/:id/", function(req, res){
+app.delete("/campgrounds/:id/", checkPermitions, function(req, res){
     Campground.findByIdAndRemove(req.params.id, function (err) {
         if (err) {
             //IFF ERROR
@@ -150,7 +150,8 @@ function isLoggedIn(req, res, next){
     res.redirect('/login');
 }
 
-function chekPermitions(req, res, next){
+function checkPermitions(req, res, next){
+    //USER NEED TO BE LOGGED IN
     if(req.isAuthenticated()){
         //IF USER NOT OWNER OF THIS CAMPGROUND HE HAVE NO PERMITION TO EDIT HIM
         Campground.findById(req.params.id, function (err, foundCampground) {

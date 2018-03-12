@@ -17,7 +17,15 @@
     color: rgba(231, 14, 14, 0.527);
 }
 
+.delete-form{
+    display: inline;
+}
+
 .campground-username{
     font-size: larger;
     font-weight: bolder;
+}
+
+.comment-buttons{
+    padding-right: 20px;
 }
