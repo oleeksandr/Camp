@@ -34,6 +34,7 @@ app.post("/campgrounds", check.isLoggedIn, function (req, res) {
     //GET DATA FROM REQUEST AND SAVE INTO OBJECT
     var name = req.body.name;
     var image = req.body.image;
+    var cost = req.body.cost;
     var description = req.body.description;
     var author = {
         id: req.user.id,
@@ -42,6 +43,7 @@ app.post("/campgrounds", check.isLoggedIn, function (req, res) {
     var newCapm = {
         name: name,
         image: image,
+        cost:cost,
         description: description,
         author: author
     };
