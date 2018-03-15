@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var flash = require('connect-flash');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
@@ -39,6 +40,9 @@ app.use(methodOverride('_method'));
 //WAIT FOR FILE .EJS
 app.set("view engine", "ejs");
 
+//USED TO SHOW MESSAGES
+app.use(flash());
+
 //DELETE ALL FROM DB AND ADD SOME TEST DATA
 // clearDB();
 
@@ -58,6 +62,8 @@ passport.deserializeUser(User.deserializeUser());
 //ADD TO EACH ROUTES INFORMATION ABOUT USER TO "loggedInUser"
 app.use(function(req, res, next){
     res.locals.loggedInUser = req.user;
+    res.locals.succes = req.flash('succes');
+    res.locals.error = req.flash('error');
     next();
 });
 

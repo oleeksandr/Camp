@@ -47,9 +47,11 @@
                             <% } %>
                             <span class="pull-right">10 days ago</span>
 
-                            <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && comment.author.id && comment.author.id.equals(loggedInUser._id)) {%>
+                            <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && (comment.author.id && comment.author.id.equals(loggedInUser._id) || campground.author.id && campground.author.id.equals(loggedInUser._id))) {%>
                                 <div class="pull-right auth-buttons comment-buttons">
-                                    <a href="/campgrounds/<%=campground._id%>/comments/<%= comment._id%>/edit" class="btn btn-warning">Edit</a>
+                                    <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && comment.author.id && comment.author.id.equals(loggedInUser._id)) { %>
+                                        <a href="/campgrounds/<%=campground._id%>/comments/<%= comment._id%>/edit" class="btn btn-warning">Edit</a>
+                                    <% } %>
                                     <form action="/campgrounds/<%=campground._id%>/comments/<%= comment._id%>?_method=DELETE" method="POST" class="delete-form">
                                         <input type="submit" class="btn btn-danger" value="Delete">
                                     </form>

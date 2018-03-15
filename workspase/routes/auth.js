@@ -28,11 +28,11 @@ app.post('/register', function(req, res){
     User.register(new User({username: req.body.username}), req.body.password, function(err, user){
         if (err) {
             //IFF ERROR
-            console.log("SOMETHING WENT WRONG!");
-            console.log(err);
-            return res.render('register');
+            req.flash('error', err.message);
+            return res.redirect('/register');
         } else {
             passport.authenticate('local')(req, res, function(){
+                req.flash('success', "Succesfully created Your account and logded You in us " + req.body.username);
                 res.redirect("/campgrounds");
             });
         }
@@ -60,17 +60,8 @@ app.post('/login', passport.authenticate('local', {
 //============================================================
 app.get('/logout', function(req, res){
     req.logout();
+    req.flash('succes', "You was succesfuly Logged out")
     res.redirect("/campgrounds");
 });
-
-//============================================================
-//CHEK IF USER LOGGED IN
-//============================================================
-function isLoggedIn(req, res, next){
-    if (req.isAuthenticated()){
-        return next();
-    }
-    res.redirect('/login');
-}
 
 module.exports = app;
