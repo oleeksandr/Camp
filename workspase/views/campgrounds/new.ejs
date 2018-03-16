@@ -3,13 +3,10 @@
     <div class="row">
         <h1 style="text-align: center;">Create a New Campground</h1>
         <div style="width: 30%; margin: 25px auto;">        
-            <form action="/campgrounds" method="POST">
+            <form action="/campgrounds" method="POST" encType="multipart/form-data">
                
                 <div class="form-group"> 
                     <input class="form-control" type="text" name="name" placeholder="name" required>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="image" placeholder="image url">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="number" name="cost" placeholder="cost" step="0.01" min="0" required>
@@ -17,6 +14,10 @@
                 <div class="form-group">
                     <textarea class="form-control" type="text" name="description" placeholder="description to your campground" required></textarea>
                 </div>
+                <div class="form-group">
+                    <input type="file" name="image" accept=".jpg, .jpeg, .png" required>
+                </div>
+                <p class="valid_image"></p>
                 <div class="form-group">
                     <button class="btn btn-lg btn-success btn-block">Submit!</button>
                 </div>
@@ -26,4 +27,48 @@
         </div>
     </div>
 </div>
+
+<script>
+var imageInput = document.querySelector('input[type="file"]');
+var valid_image = document.querySelector('.valid_image');
+imageInput.addEventListener('change', updateImageDisplay);
+
+function updateImageDisplay(e) {
+    while(valid_image.firstChild) {
+        valid_image.removeChild(valid_image.firstChild);
+    }
+    var imagesrc = imageInput.files[0];
+    if(imagesrc.length === 0) {
+        var para = document.createElement('p');
+        para.textContent = 'No files currently selected for upload';
+        valid_image.appendChild(para);
+    } else {
+        var para = document.createElement('p');
+        if(!validFileType(imagesrc)) {
+            para.textContent = 'File name ' + imagesrc.name + ': Not a valid file type. Update your selection.';
+            valid_image.appendChild(para);
+            imageInput.value = '';
+        }   
+    }
+}
+
+    var fileTypes = [
+    'image/jpeg',
+    'image/pjpeg',
+    'image/png'
+    ]
+
+    function validFileType(file) {
+        for(var i = 0; i < fileTypes.length; i++) {
+            if(file.type === fileTypes[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+//Solution from
+//https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+</script>
 <% include ../partials/footer %>

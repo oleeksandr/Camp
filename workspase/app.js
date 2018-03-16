@@ -2,7 +2,11 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+
 var flash = require('connect-flash');
+
+var moment = require('moment');
+var fileUpload = require('express-fileupload');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
@@ -34,6 +38,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/images"));
 
 app.use(methodOverride('_method'));
 
@@ -42,6 +47,8 @@ app.set("view engine", "ejs");
 
 //USED TO SHOW MESSAGES
 app.use(flash());
+
+app.use(fileUpload());
 
 //DELETE ALL FROM DB AND ADD SOME TEST DATA
 // clearDB();
@@ -58,12 +65,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
 //ADD TO EACH ROUTES INFORMATION ABOUT USER TO "loggedInUser"
 app.use(function(req, res, next){
     res.locals.loggedInUser = req.user;
     res.locals.succes = req.flash('succes');
     res.locals.error = req.flash('error');
+    res.locals.moment = moment;
     next();
 });
 

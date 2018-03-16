@@ -9,7 +9,8 @@ var commentSchema = new mongoose.Schema({
         },
         username: String
     },
-    text: String
+    text: String,
+    createdAt: { type: Date, default: Date.now }
 });
 
 //CREATE NEW COMMENT MODEL IN DB BY FOLOWING SCHEMA 

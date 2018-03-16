@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": ""
   },
   "author": "Oleksandr Lisivka",
   "license": "ISC",
@@ -12,8 +12,10 @@
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
     "express": "^4.15.5",
+    "express-fileupload": "^0.4.0",
     "express-session": "^1.15.6",
     "method-override": "^2.3.10",
+    "moment": "^2.21.0",
     "mongoose": "^5.0.6",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",

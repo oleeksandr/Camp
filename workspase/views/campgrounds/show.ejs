@@ -12,23 +12,24 @@
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src="<%= campground.image %>" title="<%= campground.name %>" alt="<%= campground.name %>">
+
+                <img class="img-responsive" src="../<%=campground.image.imagename + '.' +  campground.image.extension %>" title="<%= campground.name %>" alt="<%= campground.name %>">
                 <div class="caption">
                     <h4 class="pull-right">$<%= campground.cost %>/night</h4>
                     <h4><a href="#"><%= campground.name %></a></h4>
                     <p><%= campground.description %></p>
                     <% if(loggedInUser && campground.author.id && campground.author.id.equals(loggedInUser._id)) {%>
                         <div class="auth-buttons campground-buttons">
-                            <a href="/campgrounds/<%= campground._id %>/edit"><p class="pull-right btn btn-warning">Edit</p></a>
                             <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" class="delete-form">
                                 <input type="submit" class="pull-right btn btn-danger" value="Delete">
                             </form>
+                            <a href="/campgrounds/<%= campground._id %>/edit"><p class="pull-right btn btn-warning">Edit</p></a>
                         </div>
                     <% } %>
 
                     <p>
                         <i>Created By
-                            <span class="campground-username"> <%= campground.author.username %></span>
+                            <span class="campground-username"><%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></span>
                         </i>
                     </p>
                 </div>
@@ -44,20 +45,20 @@
                             <srong><%= comment.author.username %></srong>
                             <% if(comment.author.id === null) { %>
                                 <span class="not-logged-in-user">Anonim User</span>
-                            <% } %>
-                            <span class="pull-right">10 days ago</span>
-
-                            <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && (comment.author.id && comment.author.id.equals(loggedInUser._id) || campground.author.id && campground.author.id.equals(loggedInUser._id))) {%>
-                                <div class="pull-right auth-buttons comment-buttons">
-                                    <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && comment.author.id && comment.author.id.equals(loggedInUser._id)) { %>
-                                        <a href="/campgrounds/<%=campground._id%>/comments/<%= comment._id%>/edit" class="btn btn-warning">Edit</a>
-                                    <% } %>
-                                    <form action="/campgrounds/<%=campground._id%>/comments/<%= comment._id%>?_method=DELETE" method="POST" class="delete-form">
-                                        <input type="submit" class="btn btn-danger" value="Delete">
-                                    </form>
-                                </div>
-                            <% } %>
-                            
+                                <% } %>
+                                
+                                <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && (comment.author.id && comment.author.id.equals(loggedInUser._id) || campground.author.id && campground.author.id.equals(loggedInUser._id))) {%>
+                                    <div class="pull-right auth-buttons comment-buttons">
+                                        <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && comment.author.id && comment.author.id.equals(loggedInUser._id)) { %>
+                                            <a href="/campgrounds/<%=campground._id%>/comments/<%= comment._id%>/edit" class="btn btn-warning">Edit</a>
+                                        <% } %>
+                                        <form action="/campgrounds/<%=campground._id%>/comments/<%= comment._id%>?_method=DELETE" method="POST" class="delete-form">
+                                            <input type="submit" class="btn btn-danger" value="Delete">
+                                        </form>
+                                    </div>
+                                <% } %>
+                                <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                                    
                             <p><%= comment.text %></p>
                         </div>
                     </div>
