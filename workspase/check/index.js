@@ -1,9 +1,9 @@
 //REQUIRE
-var Campground = require('../models/campground');
-var Comment = require('../models/comment');
+const Announcement = require('../models/announcement');
+const Comment = require('../models/comment');
 
 //ALL MIDDLEWARES
-var checkFunctions = {
+const checkFunctions = {
 
     //============================================================
     //CHEK IF USER LOGGED IN
@@ -17,30 +17,30 @@ var checkFunctions = {
     },
 
     //============================================================
-    //CHEK IF USER LOGGED IN AND HAVE PERMITIONS TO EDIT OR DELETE CAMPGROUND
+    //CHEK IF USER LOGGED IN AND HAVE PERMITIONS TO EDIT OR DELETE ANNOUNCEMENT
     //============================================================
     checkPermitions: function(req, res, next){
         //USER NEED TO BE LOGGED IN
         if(req.isAuthenticated()){
-            //IF USER NOT OWNER OF THIS CAMPGROUND HE HAVE NO PERMITION TO EDIT HIM
-            Campground.findById(req.params.id, function (err, foundCampground) {
+            //IF USER NOT OWNER OF THIS ANNOUNCEMENT HE HAVE NO PERMITION TO EDIT HIM
+            Announcement.findById(req.params.id, function (err, foundedAnnouncement) {
                 if (err) {
                     //IFF ERROR
-                    req.flash('error', "Cannot found campground, with You are try to access");
-                    res.redirect('/campgrounds/');
+                    req.flash('error', "Cannot found announcement, with You are try to access");
+                    res.redirect('/announcements/');
                 } else {
             
-                    //CHECK IF CAMPGROUND WITH THAT ID EXIST
-                    if (!foundCampground) {
-                        req.flash("error", "Campground not found.");
+                    //CHECK IF ANNOUNCEMENT WITH THAT ID EXIST
+                    if (!foundedAnnouncement) {
+                        req.flash("error", "Announcement not found.");
                         return res.redirect("back");
                     }
 
-                    // IF USER LOGGED IN AND CREATED THIS CAMPGROUND DO WHAT YOU WANT TO DO
-                    if(foundCampground.author.id.equals(req.user._id)){
+                    // IF USER LOGGED IN AND CREATED THIS ANNOUNCEMENT DO WHAT YOU WANT TO DO
+                    if(foundedAnnouncement.author.id.equals(req.user._id)){
                         next();
                     } else {
-                        req.flash('error', "You don't have permissions. You are not the owner of this campground");
+                        req.flash('error', "You don't have permissions. You are not the owner of this announcement");
                         res.redirect('back');
                     }
                 }
@@ -65,9 +65,9 @@ var checkFunctions = {
                     res.redirect('back');
                 } else {
             
-                    //CHECK IF CAMPGROUND WITH THAT ID EXIST
+                    //CHECK IF ANNOUNCEMENT WITH THAT ID EXIST
                     if (!foundComment) {
-                        req.flash("error", "Campground not found.");
+                        req.flash("error", "Announcement not found.");
                         return res.redirect("back");
                     }
             
@@ -75,7 +75,7 @@ var checkFunctions = {
                     if(foundComment.author.id && foundComment.author.id.equals(req.user._id)){
                         next();
                     } else {
-                        req.flash('error', "You don't have permissions. You are not the owner of this comment or campground");
+                        req.flash('error', "You don't have permissions. You are not the owner of this comment or announcement");
                         res.redirect('back');
                     }
                 }
@@ -92,18 +92,18 @@ var checkFunctions = {
     checkCommentDeletePermitions: function (req, res, next){
         //USER NEED TO BE LOGGED IN
         if(req.isAuthenticated()){
-            //IF USER NOT OWNER OF THIS COMMENT OR OF THIS CAMPGROUND HE HAVE NO PERMITION TO EDIT OR DELDETE HIM
+            //IF USER NOT OWNER OF THIS COMMENT OR OF THIS ANNOUNCEMENT HE HAVE NO PERMITION TO EDIT OR DELDETE HIM
 
-            Campground.findById(req.params.id, function (err, foundCampground) {
+            Announcement.findById(req.params.id, function (err, foundedAnnouncement) {
                 if (err) {
                     //IFF ERROR
-                    req.flash('error', "Cannot found campground, with You are try to access");
-                    res.redirect('/campgrounds/');
+                    req.flash('error', "Cannot found announcement, with You are try to access");
+                    res.redirect('/announcements/');
                 } else {
             
-                    //CHECK IF CAMPGROUND WITH THAT ID EXIST
-                    if (!foundCampground) {
-                        req.flash("error", "Campground not found.");
+                    //CHECK IF ANNOUNCEMENT WITH THAT ID EXIST
+                    if (!foundedAnnouncement) {
+                        req.flash("error", "Announcement not found.");
                         return res.redirect("back");
                     }
 
@@ -114,17 +114,17 @@ var checkFunctions = {
                             res.redirect('back');
                         } else {
                     
-                            //CHECK IF CAMPGROUND WITH THAT ID EXIST
+                            //CHECK IF ANNOUNCEMENT WITH THAT ID EXIST
                             if (!foundComment) {
-                                req.flash("error", "Campground not found.");
+                                req.flash("error", "Announcement not found.");
                                 return res.redirect("back");
                             }
 
                             // IF USER LOGGED IN AND CREATED THIS COMMENT DO WHAT YOU WANT TO DO
-                            if(foundComment.author.id && foundComment.author.id.equals(req.user._id) || foundCampground.author.id && foundCampground.author.id.equals(req.user._id)){
+                            if(foundComment.author.id && foundComment.author.id.equals(req.user._id) || foundedAnnouncement.author.id && foundedAnnouncement.author.id.equals(req.user._id)){
                                 next();
                             } else {
-                                req.flash('error', "You don't have permissions. You are not the owner of this comment or campground");
+                                req.flash('error', "You don't have permissions. You are not the owner of this comment or announcement");
                                 res.redirect('back');
                             }
                         }

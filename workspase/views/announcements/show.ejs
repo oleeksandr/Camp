@@ -1,0 +1,101 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="lead">Allx Travel</div>
+            <div class="list-group">
+                <li class="list-group-item active">Item 1</li>
+                <li class="list-group-item">Item 2</li>
+                <li class="list-group-item">Item 3</li>
+            </div>
+            <div id="map"></div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+
+                <img class="img-responsive" src="../<%=announcement.image.imagename + '.' +  announcement.image.extension %>" title="<%= announcement.name %>" alt="<%= announcement.name %>">
+                <div class="caption">
+                    <h4 class="pull-right">$<%= announcement.cost %>/night</h4>
+                    <h4><a href="#"><%= announcement.name %></a></h4>
+                    <p><%= announcement.description %></p>
+                    <% if(loggedInUser && announcement.author.id && announcement.author.id.equals(loggedInUser._id)) {%>
+                        <div class="auth-buttons announcement-buttons">
+                            <form action="/announcements/<%= announcement._id %>?_method=DELETE" method="POST" class="delete-form">
+                                <input type="submit" class="pull-right btn btn-danger" value="Delete">
+                            </form>
+                            <a href="/announcements/<%= announcement._id %>/edit"><p class="pull-right btn btn-warning">Edit</p></a>
+                        </div>
+                    <% } %>
+
+                    <p>
+                        <i>Created By
+                            <span class="announcement-username"><%= announcement.author.username %>, <%= moment(announcement.createdAt).fromNow() %></span>
+                        </i>
+                    </p>
+                    <p class="small">
+                        <i>Related to location:<br>
+                            <span class="announcement-location"><%= announcement.location %></span>
+                        </i>
+                    </p>
+                </div>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-default" href="/announcements/<%=announcement._id%>/comments/new">Add New Comment</a>
+                </div>
+                <hr>
+                <% announcement.comments.forEach(function(comment) { %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <srong><%= comment.author.username %></srong>
+                            <% if(comment.author.id === null) { %>
+                                <span class="not-logged-in-user">Anonim User</span>
+                                <% } %>
+                                
+                                <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && (comment.author.id && comment.author.id.equals(loggedInUser._id) || announcement.author.id && announcement.author.id.equals(loggedInUser._id))) {%>
+                                    <div class="pull-right auth-buttons comment-buttons">
+                                        <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && comment.author.id && comment.author.id.equals(loggedInUser._id)) { %>
+                                            <a href="/announcements/<%=announcement._id%>/comments/<%= comment._id%>/edit" class="btn btn-warning">Edit</a>
+                                        <% } %>
+                                        <form action="/announcements/<%=announcement._id%>/comments/<%= comment._id%>?_method=DELETE" method="POST" class="delete-form">
+                                            <input type="submit" class="btn btn-danger" value="Delete">
+                                        </form>
+                                    </div>
+                                <% } %>
+                                <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                                    
+                            <p><%= comment.text %></p>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+        </div>
+        
+    </div>
+    <a href="/announcements">Go Back</a>
+
+</div>
+
+
+
+
+<script>
+    function initMap() {
+      const uluru = {lat: <%= announcement.lat %>, lng: <%= announcement.lng %> };
+      const map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: uluru
+      });
+      const marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+      });
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8fTqXfp-uMPbD5OQsFsdMhWc80cBNTjQ&callback=initMap"></script>
+
+
+
+<% include ../partials/footer %>

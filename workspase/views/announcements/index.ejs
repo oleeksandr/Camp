@@ -1,0 +1,33 @@
+<% include ../partials/header %>
+
+<div class="container">
+
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welvome to the Allx Travel!</h1>
+            <p>View announcements about group travels from all world</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="/announcements/new">Create your own announcement!</a>
+            </p>
+        </div>
+    </header>
+
+    <div class="row text-center" style="display: flex; flex-wrap: wrap">
+        <% announcements.forEach(function(announcement){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src="../<%= announcement.image.imagename + '.' +  announcement.image.extension %>" alt="<%= announcement.name %>" title="<%= announcement.name %>">
+                    <div class="caption"></div>
+                    <h4>
+                        <%= announcement.name %>
+                    </h4>
+                    <p>
+                        <a href="/announcements/<%= announcement._id %>" class="btn btn-primary">More info</a>
+                    </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<% include ../partials/footer %>

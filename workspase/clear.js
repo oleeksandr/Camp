@@ -1,8 +1,8 @@
-var mongoose = require("mongoose");
-var Campground = require("./models/campground");
-var Comment = require("./models/comment");
+const mongoose = require("mongoose");
+const Announcement = require("./models/announcement");
+const Comment = require("./models/comment");
 
-var campgrounds = [
+const announcements = [
     // {
     //     name: "Olek Base",
     //     image: "http://img1.sunset.timeinc.net/sites/default/files/styles/1000x1000/public/image/2016/10/main/hoodview-campground-0510.jpg?itok=B8Eb65Uf",
@@ -23,13 +23,13 @@ var campgrounds = [
 function clearDB() {
 
     // REMOVE ALL CAMPGROUNDS
-    Campground.remove({}, function (err) {
+    Announcement.remove({}, function (err) {
         if (err) {
             console.log(err);
         } else {
             //ADD CAMPGROUNDS
-            campgrounds.forEach(function (seed) {
-                Campground.create(seed, function (err, campground) {
+            announcements.forEach(function (seed) {
+                Announcement.create(seed, function (err, announcement) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -45,8 +45,8 @@ function clearDB() {
                             if (err) {
                                 console.log(err);
                             } else {
-                                campground.comments.push(comment);
-                                campground.save();
+                                announcement.comments.push(comment);
+                                announcement.save();
                             }
                         });
                     }

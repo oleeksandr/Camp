@@ -25,15 +25,29 @@
     display: inline;
 }
 
-.campground-username{
+.announcement-username{
     font-size: larger;
     font-weight: bolder;
 }
+
 /* .auth-buttons > *{
     padding: 0 5px;
 } */
+
 .comment-buttons{
     padding-left: 20px;
+}
+
+.small{
+    font-size: 13px;
+}
+
+.valid_image > p {
+    color: red;
+}
+#map {
+    height: 400px;
+    width: 100%;
 }
 
 @media (max-width: 639px) {

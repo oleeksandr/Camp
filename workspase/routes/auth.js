@@ -1,10 +1,10 @@
-var express = require('express');
-var app = express();
-var passport = require('passport');
-var User = require('../models/user');
+const express = require('express');
+const app = express();
+const passport = require('passport');
+const User = require('../models/user');
 
 //============================================================
-//LANDING PAGE OF YELPCAMP
+//LANDING PAGE OF Allx travel
 //============================================================
 app.get("/", function (req, res) {
     res.render("landing");
@@ -33,7 +33,7 @@ app.post('/register', function(req, res){
         } else {
             passport.authenticate('local')(req, res, function(){
                 req.flash('success', "Succesfully created Your account and logded You in us " + req.body.username);
-                res.redirect("/campgrounds");
+                res.redirect("/announcements");
             });
         }
     })
@@ -50,7 +50,7 @@ app.get('/login', function(req, res){
 //IF SOMEONE LOGIN
 //============================================================
 app.post('/login', passport.authenticate('local', {
-    successRedirect: '/campgrounds',
+    successRedirect: '/announcements',
     failureRedirect: '/login'
 }), function(req, res){
 });
@@ -61,7 +61,7 @@ app.post('/login', passport.authenticate('local', {
 app.get('/logout', function(req, res){
     req.logout();
     req.flash('succes', "You was succesfuly Logged out")
-    res.redirect("/campgrounds");
+    res.redirect("/announcements");
 });
 
 module.exports = app;

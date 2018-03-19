@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 //SCHEMA SETUP
-var campgroundSchema = new mongoose.Schema({
+const announcementSchema = new mongoose.Schema({
     name: String,
     // image: String,
     image: {
@@ -9,6 +9,9 @@ var campgroundSchema = new mongoose.Schema({
         ref: "Image"
     },
     description: String,
+    location: String,
+    lat: Number,
+    lng: Number,
     cost: Number,
     createdAt: { type: Date, default: Date.now },
     author: {
@@ -26,5 +29,5 @@ var campgroundSchema = new mongoose.Schema({
      ]
 });
 
-//CREATE NEW CAMPGROUND MODEL IN DB BY FOLOWING SCHEMA 
-module.exports = mongoose.model("Campground", campgroundSchema);
+//CREATE NEW ANNOUNCEMENT MODEL IN DB BY FOLOWING SCHEMA 
+module.exports = mongoose.model("Announcement", announcementSchema);

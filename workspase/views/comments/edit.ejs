@@ -1,9 +1,9 @@
 <% include ../partials/header %>
 <div class="container">
     <div class="row">
-        <h1 style="text-align: center;">Edit Commnt to <%= campground.name %> Page</h1>
+        <h1 style="text-align: center;">Edit Commnt to <%= announcement.name %> Page</h1>
         <div style="width: 30%; margin: 25px auto;">        
-            <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+            <form action="/announcements/<%= announcement._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
 <!-- 
                 <% if (!loggedInUser){ %>
                     <div class="form-group"> 
@@ -20,7 +20,7 @@
                 </div>
 
             </form>
-            <a href="/campgrounds/<%= campground._id %>">Go Back</a>
+            <a href="/announcements/<%= announcement._id %>">Go Back</a>
         </div>
     </div>
 </div>

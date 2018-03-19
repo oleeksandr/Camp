@@ -1,28 +1,28 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-var flash = require('connect-flash');
+const flash = require('connect-flash');
 
-var moment = require('moment');
-var fileUpload = require('express-fileupload');
+const moment = require('moment');
+const fileUpload = require('express-fileupload');
 
-var passport = require('passport');
-var LocalStrategy = require('passport-local');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 
-var methodOverride = require('method-override')
+const methodOverride = require('method-override')
 
-var Campground = require("./models/campground");
-var Comment = require("./models/comment");
-var User = require("./models/user");
+const Announcement = require("./models/announcement");
+const Comment = require("./models/comment");
+const User = require("./models/user");
 
-var clearDB = require("./clear");
+// const clearDB = require("./clear");
 
 //ROUTING
-var campgroundRoutes = require('./routes/campgrounds');
-var commentRoutes = require('./routes/comments');
-var authRoutes = require('./routes/auth');
+const announcementRoutes = require('./routes/announcements');
+const commentRoutes = require('./routes/comments');
+const authRoutes = require('./routes/auth');
 
 
 //************************************************************
@@ -30,7 +30,7 @@ var authRoutes = require('./routes/auth');
 //************************************************************
 
 //DB LOCATION
-mongoose.connect("mongodb://localhost/yelp_camp");
+mongoose.connect("mongodb://localhost/allx_travel_db");
 
 //BODY PARSER TO PARSE DATA FROM REQUEST
 app.use(bodyParser.urlencoded({
@@ -76,7 +76,7 @@ app.use(function(req, res, next){
 
 //USE ROUTING FROM SEPERATE FILES
 app.use(authRoutes);
-app.use(campgroundRoutes);
+app.use(announcementRoutes);
 app.use(commentRoutes);
 
 //************************************************************
@@ -95,6 +95,6 @@ app.use(commentRoutes);
 //WAIT FOR CONECTION TO THE SERWER
 //============================================================
 app.listen(3005, function () {
-    console.log("Camp Server Starded");
+    console.log("Server Starded");
     console.log("Port 3005");
 });

@@ -1,0 +1,37 @@
+<script>
+    const imageInput = document.querySelector('input[type="file"]');
+    const valid_image = document.querySelector('.valid_image');
+    imageInput.addEventListener('change', updateImageDisplay);
+    
+    function updateImageDisplay(e) {
+        while(valid_image.firstChild) {
+            valid_image.removeChild(valid_image.firstChild);
+        }
+        const imagesrc = imageInput.files[0];
+        if(imagesrc.length === 0) {
+            const para = document.createElement('p');
+            para.textContent = 'No files currently selected for upload';
+            valid_image.appendChild(para);
+        } else {
+            const para = document.createElement('p');
+            if(!validFileType(imagesrc)) {
+                para.textContent = 'File name ' + imagesrc.name + ': Not a valid file type. Update your selection.';
+                valid_image.appendChild(para);
+                imageInput.value = '';
+            }   
+        }
+    }
+    const fileTypes = [
+    'image/jpeg',
+    'image/pjpeg',
+    'image/png'
+    ]
+    function validFileType(file) {
+        for(var i = 0; i < fileTypes.length; i++) {
+            if(file.type === fileTypes[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+</script>

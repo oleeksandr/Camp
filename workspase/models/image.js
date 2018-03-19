@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 //SCHEMA SETUP
-var imageSchema = new mongoose.Schema({
+const imageSchema = new mongoose.Schema({
     imagename: String,
     extension: String
 });

@@ -1,8 +1,8 @@
-var express = require('express');
-var app = express();
-var Campground = require('../models/campground');
-var Comment = require('../models/comment');
-var check = require('../check');
+const express = require('express');
+const app = express();
+const Announcement = require('../models/announcement');
+const Comment = require('../models/comment');
+const check = require('../check');
 
 //============================================================
 //COMMENT ROUTES
@@ -11,42 +11,42 @@ var check = require('../check');
 //============================================================
 //NEW - SHOW FORM TO CREATE NEW COMMENT IF USER LOGGED IN
 //============================================================
-app.get("/campgrounds/:id/comments/new", function (req, res) {
-    //FIND CAMPGROUND BY ID
-    Campground.findById(req.params.id, function(err, campground){
+app.get("/announcements/:id/comments/new", function (req, res) {
+    //FIND ANNOUNCEMENT BY ID
+    Announcement.findById(req.params.id, function(err, announcement){
         if (err) {
             //IFF ERROR
-            req.flash('error', "Cannot found campground");
+            req.flash('error', "Cannot found announcement");
             res.redirect('back');
         } else {
             
-            //CHECK IF CAMPGROUND WITH THAT ID EXIST
-            if (!campground) {
-                req.flash("error", "Campground not found.");
+            //CHECK IF ANNOUNCEMENT WITH THAT ID EXIST
+            if (!announcement) {
+                req.flash("error", "Announcement not found.");
                 return res.redirect("back");
             }
             
-            //IF ALL IS OK, RENDER NEW TEMPLATE FOR CAMPGROUND
-            res.render("comments/new", {campground:campground});
+            //IF ALL IS OK, RENDER NEW TEMPLATE FOR ANNOUNCEMENT
+            res.render("comments/new", {announcement:announcement});
         }
     });
 });
 
 //============================================================
-//CREATE - ADD COMMENT TO CAMPGROUND IF USER LOGGED IN
+//CREATE - ADD COMMENT TO ANNOUNCEMENT IF USER LOGGED IN
 //============================================================
-app.post("/campgrounds/:id/comments", function (req, res) {
-    //FIND CAMPGROUND BY ID
-    Campground.findById(req.params.id, function(err, campground){
+app.post("/announcements/:id/comments", function (req, res) {
+    //FIND ANNOUNCEMENT BY ID
+    Announcement.findById(req.params.id, function(err, announcement){
         if (err) {
             //IFF ERROR
-            req.flash('error', "Cannot found campground");
-            res.redirect('/campgrounds');
+            req.flash('error', "Cannot found announcement");
+            res.redirect('/announcements');
         } else {
             
-            //CHECK IF CAMPGROUND WITH THAT ID EXIST
-            if (!campground) {
-                req.flash("error", "Campground not found.");
+            //CHECK IF ANNOUNCEMENT WITH THAT ID EXIST
+            if (!announcement) {
+                req.flash("error", "Announcement not found.");
                 return res.redirect("back");
             }
             
@@ -55,7 +55,7 @@ app.post("/campgrounds/:id/comments", function (req, res) {
                 if (err) {
                     //IFF ERROR
                     req.flash('error', "Have some problems with creating Your comment. Please try again");
-                    res.redirect('/campgrounds');
+                    res.redirect('/announcements');
                 } else {
                     // if (req.user){
                         comment.author.id = req.user ? req.user._id : null;
@@ -66,11 +66,11 @@ app.post("/campgrounds/:id/comments", function (req, res) {
                         // comment.author.username = req.body.comment.author;
                         // comment.save();
                     // }
-                    //IF ALL IS OK, ADD COMMENT TO THE CAMPGROUND
-                    campground.comments.push(comment);
-                    campground.save();
+                    //IF ALL IS OK, ADD COMMENT TO THE ANNOUNCEMENT
+                    announcement.comments.push(comment);
+                    announcement.save();
                     req.flash('succes', "Successfully create comment");
-                    res.redirect('/campgrounds/' + campground._id);
+                    res.redirect('/announcements/' + announcement._id);
                 }
             });
         }
@@ -85,37 +85,37 @@ app.post("/campgrounds/:id/comments", function (req, res) {
 //============================================================
 //EDIT - SHOW FORM TO EDIT EXISTING COMMENT
 //============================================================
-app.get("/campgrounds/:id/comments/:comment_id/edit", check.checkCommentEditePermitions, function(req, res){
-    Campground.findById(req.params.id, function(err, foundCampground) {
+app.get("/announcements/:id/comments/:comment_id/edit", check.checkCommentEditePermitions, function(req, res){
+    Announcement.findById(req.params.id, function(err, foundedAnnouncement) {
         if (err) {
             //IFF ERROR
-            req.flash('error', "Cannot found campground");
-            res.redirect('/campgrounds/');
+            req.flash('error', "Cannot found announcement");
+            res.redirect('/announcements/');
         } else {
             
-            //CHECK IF CAMPGROUND WITH THAT ID EXIST
-            if (!foundCampground) {
-                req.flash("error", "Campground not found.");
+            //CHECK IF ANNOUNCEMENT WITH THAT ID EXIST
+            if (!foundedAnnouncement) {
+                req.flash("error", "Announcement not found.");
                 return res.redirect("back");
             }
             
-            // console.log("WE GOT DATA ABOUT CAMPGROUND WITH SOME ID FROM DB AND WILL CHECK FOR COMMENT");
+            // console.log("WE GOT DATA ABOUT ANNOUNCEMENT WITH SOME ID FROM DB AND WILL CHECK FOR COMMENT");
             Comment.findById(req.params.comment_id, function(err, foundComment) {
                 if (err) {
                     //IFF ERROR
-                    // res.redirect('/campgrounds/' + req.params.id);
+                    // res.redirect('/announcements/' + req.params.id);
                     req.flash('error', "Cannot found comment");
                     res.redirect('back');
                 } else {
             
                     //CHECK IF COMMENT WITH THAT ID EXIST
                     if (!foundComment) {
-                        req.flash("error", "Campground not found.");
+                        req.flash("error", "Announcement not found.");
                         return res.redirect("back");
                     }
                     
                     //IF ALL IS OK, RENDER EDIT PAGE WITH COMMENT DATA
-                    res.render("comments/edit", {campground:foundCampground, comment:foundComment});
+                    res.render("comments/edit", {announcement:foundedAnnouncement, comment:foundComment});
                 }
             });
         }
@@ -125,16 +125,16 @@ app.get("/campgrounds/:id/comments/:comment_id/edit", check.checkCommentEditePer
 //============================================================
 //UPDATE - UPDATE A SPECIFIC COMMENT
 //============================================================
-app.put("/campgrounds/:id/comments/:comment_id/", check.checkCommentEditePermitions, function(req, res){
+app.put("/announcements/:id/comments/:comment_id/", check.checkCommentEditePermitions, function(req, res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found comment");
             res.redirect('back');
         } else {
-            //IF ALL IS OK, REDIRECT TO SHOW ROUTE WITH CAMPGROUND
+            //IF ALL IS OK, REDIRECT TO SHOW ROUTE WITH ANNOUNCEMENT
             req.flash('succes', "Successfully update comment");
-            res.redirect('/campgrounds/' + req.params.id);
+            res.redirect('/announcements/' + req.params.id);
         }
     });
 });
@@ -142,7 +142,7 @@ app.put("/campgrounds/:id/comments/:comment_id/", check.checkCommentEditePermiti
 //============================================================
 //DESTROY - DELETE A SPECIFIC COMMENT
 //============================================================
-app.delete("/campgrounds/:id/comments/:comment_id/", check.checkCommentDeletePermitions, function(req, res){
+app.delete("/announcements/:id/comments/:comment_id/", check.checkCommentDeletePermitions, function(req, res){
     Comment.findByIdAndRemove(req.params.comment_id, function (err) {
         if (err) {
             //IFF ERROR
@@ -151,7 +151,7 @@ app.delete("/campgrounds/:id/comments/:comment_id/", check.checkCommentDeletePer
         } else {
             //IF ALL IS OK, DELETE COMMENT
             req.flash('succes', "Successfully delete comment");
-            res.redirect('/campgrounds/' +  req.params.id);
+            res.redirect('/announcements/' +  req.params.id);
         }
     });
 });
