@@ -7,7 +7,7 @@ const User = require('../models/user');
 //LANDING PAGE OF Allx travel
 //============================================================
 app.get("/", function (req, res) {
-    res.render("landing");
+    res.render("landing", {pagename: "Allx Travel"});
 });
 
 //============================================================
@@ -18,14 +18,22 @@ app.get("/", function (req, res) {
 //INDEX - SHOW REGISTER FORM
 //============================================================
 app.get("/register", function(req, res){
-    res.render("register");
+    res.render("register", {pagename: "Register"});
 });
 
 //============================================================
 //CREATE - IF SOMEONE SIGN UP ADD NEW USER TO DB
 //============================================================
 app.post('/register', function(req, res){
-    User.register(new User({username: req.body.username}), req.body.password, function(err, user){
+    newUser = {
+        email: req.body.email,
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
+    }
+    User.register(new User(newUser), req.body.password, function(err, user){
+        console.log(user);
         if (err) {
             //IFF ERROR
             req.flash('error', err.message);
@@ -43,7 +51,7 @@ app.post('/register', function(req, res){
 //INDEX - SHOW LOGIN FORM
 //============================================================
 app.get('/login', function(req, res){
-    res.render('login');
+    res.render('login', {pagename: "Login"});
 });
 
 //============================================================
@@ -53,6 +61,7 @@ app.post('/login', passport.authenticate('local', {
     successRedirect: '/announcements',
     failureRedirect: '/login'
 }), function(req, res){
+
 });
 
 //============================================================

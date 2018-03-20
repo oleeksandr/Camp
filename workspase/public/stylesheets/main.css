@@ -25,10 +25,10 @@
     display: inline;
 }
 
-.announcement-username{
+/* .announcement-username{
     font-size: larger;
     font-weight: bolder;
-}
+} */
 
 /* .auth-buttons > *{
     padding: 0 5px;
@@ -49,6 +49,28 @@
     height: 400px;
     width: 100%;
 }
+
+#user_info{
+    background: red;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 0 40px 20px;
+    margin: 0 0 10px 20px;
+}
+
+
+#user_info:before, #user_info:after{
+    position: relative;
+  }
+  #user_info:before{
+    content: "";
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-bottom-color: red;
+    bottom: 28px;
+  }
+
 
 @media (max-width: 639px) {
     .btn{

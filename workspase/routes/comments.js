@@ -26,8 +26,11 @@ app.get("/announcements/:id/comments/new", function (req, res) {
                 return res.redirect("back");
             }
             
-            //IF ALL IS OK, RENDER NEW TEMPLATE FOR ANNOUNCEMENT
-            res.render("comments/new", {announcement:announcement});
+            //IF ALL IS OK, RENDER NEW TEMPLATE FOR COMMENT
+            res.render("comments/new", {
+                announcement:announcement,
+                pagename: "Create new comment"
+            });
         }
     });
 });
@@ -115,7 +118,11 @@ app.get("/announcements/:id/comments/:comment_id/edit", check.checkCommentEditeP
                     }
                     
                     //IF ALL IS OK, RENDER EDIT PAGE WITH COMMENT DATA
-                    res.render("comments/edit", {announcement:foundedAnnouncement, comment:foundComment});
+                    res.render("comments/edit", {
+                        announcement:foundedAnnouncement,
+                        comment:foundComment,
+                        pagename: "Edit comment"
+                    });
                 }
             });
         }

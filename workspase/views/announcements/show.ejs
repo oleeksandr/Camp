@@ -16,7 +16,7 @@
 
                 <img class="img-responsive" src="../<%=announcement.image.imagename + '.' +  announcement.image.extension %>" title="<%= announcement.name %>" alt="<%= announcement.name %>">
                 <div class="caption">
-                    <h4 class="pull-right">$<%= announcement.cost %>/night</h4>
+                    <h4 class="pull-right">$<%= announcement.cost %>/person</h4>
                     <h4><a href="#"><%= announcement.name %></a></h4>
                     <p><%= announcement.description %></p>
                     <% if(loggedInUser && announcement.author.id && announcement.author.id.equals(loggedInUser._id)) {%>
@@ -29,11 +29,24 @@
                     <% } %>
 
                     <p>
-                        <i>Created By
-                            <span class="announcement-username"><%= announcement.author.username %>, <%= moment(announcement.createdAt).fromNow() %></span>
+                        <i>Author
+                            <span class="announcement-username btn btn-link" id="show_hide_user_info"><%= announcement.author.username %></span>
                         </i>
                     </p>
+                    <span id="user_info" style="display: none;">
+                        <div>
+                            <%= announcement.author.id.email %><br>
+                            <%= announcement.author.id.firstName%>
+                            <%= announcement.author.id.lastName %><br>
+                            <%= announcement.author.id.phone %><br>
+                        </div>
+                    </span>
                     <p class="small">
+                        <i> Created
+                            <span><%= moment(announcement.createdAt).fromNow() %></span>
+                        </i>
+                        <br>
+                        <br>
                         <i>Related to location:<br>
                             <span class="announcement-location"><%= announcement.location %></span>
                         </i>
@@ -77,13 +90,19 @@
     <a href="/announcements">Go Back</a>
 
 </div>
+<% include ../partials/scripts %>
 
-
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#show_hide_user_info").click(function(){
+            $("#user_info").toggle();
+        });
+    });
+</script>
 
 <script>
     function initMap() {
-      const uluru = {lat: <%= announcement.lat %>, lng: <%= announcement.lng %> };
+      const uluru = {lat: <%= announcement.lat %>, lng: <%= announcement.lng %>};
       const map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: uluru

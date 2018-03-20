@@ -35,7 +35,8 @@ app.get("/announcements", function (req, res) {
             //IF ALL IS OK, RENDER PAGE WITH THAT DATA
             //RENDER DATA
             res.render("announcements/index", {
-                announcements: allAnnouncement
+                announcements: allAnnouncement,
+                pagename: "Annoucements"
             });
         }
     });
@@ -136,7 +137,7 @@ app.post("/announcements", check.isLoggedIn, function (req, res) {
 //NEW - SHOW FORM TO CREATE NEW ANNOUNCEMENT
 //============================================================
 app.get("/announcements/new", check.isLoggedIn, function (req, res) {
-    res.render("announcements/new");
+    res.render("announcements/new", {pagename: "Create new anouncement"});
 });
 
 //============================================================
@@ -145,9 +146,10 @@ app.get("/announcements/new", check.isLoggedIn, function (req, res) {
 app.get("/announcements/:id", function (req, res) {
 
     //FIND A ANNOUNCEMENT
-    Announcement.findById(req.params.id).populate("comments").populate("image").exec(function (err, foundedAnnouncement) {
+    Announcement.findById(req.params.id).populate("comments").populate("author.id").populate("image").exec(function (err, foundedAnnouncement) {
         if (err) {
             //IFF ERROR
+            console.log()
             req.flash('error', "Cannot found announcement");
             res.redirect("/announcements")
         } else {
@@ -159,7 +161,10 @@ app.get("/announcements/:id", function (req, res) {
             }
 
             //IF ALL IS OK, RENDER SHOW TEMPLATE WITH THAT ANNOUNCEMENT
-            res.render("announcements/show", {announcement:foundedAnnouncement});
+            res.render("announcements/show", {
+                announcement:foundedAnnouncement,
+                pagename: `Allx Travel | ${foundedAnnouncement.name}`
+            });
         }
     });
 });
@@ -182,7 +187,10 @@ app.get("/announcements/:id/edit", check.checkPermitions, function(req, res){
             }
 
             //IF ALL IS OK, RENDER EDIT PAGE WITH ANNOUNCEMENT DATA
-            res.render('announcements/edit', {announcement:foundedAnnouncement});
+            res.render('announcements/edit', {
+                announcement:foundedAnnouncement,
+                pagename: "Edit anouncement"
+            });
         }
     });
 });
