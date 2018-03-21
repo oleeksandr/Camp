@@ -2,72 +2,107 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
-            <div class="lead">Allx Travel</div>
-            <div class="list-group">
-                <li class="list-group-item active">Item 1</li>
-                <li class="list-group-item">Item 2</li>
-                <li class="list-group-item">Item 3</li>
-            </div>
-            <div id="map"></div>
-        </div>
-        <div class="col-md-9">
+
+        <div class="col-md-8">
             <div class="thumbnail">
 
                 <img class="img-responsive" src="../<%=announcement.image.imagename + '.' +  announcement.image.extension %>" title="<%= announcement.name %>" alt="<%= announcement.name %>">
                 <div class="caption">
-                    <h4 class="pull-right">$<%= announcement.cost %>/person</h4>
-                    <h4><a href="#"><%= announcement.name %></a></h4>
-                    <p><%= announcement.description %></p>
-                    <% if(loggedInUser && announcement.author.id && announcement.author.id.equals(loggedInUser._id)) {%>
-                        <div class="auth-buttons announcement-buttons">
-                            <form action="/announcements/<%= announcement._id %>?_method=DELETE" method="POST" class="delete-form">
-                                <input type="submit" class="pull-right btn btn-danger" value="Delete">
-                            </form>
-                            <a href="/announcements/<%= announcement._id %>/edit"><p class="pull-right btn btn-warning">Edit</p></a>
+                    <div class="post-info">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h4><a href="#"><%= announcement.name %></a></h4>
+                            </div>
+                            <div class="col-sm-3">
+                                <h4 class="">$<%= announcement.cost %> / person</h4>
+                            </div>
+                            <div class="col-sm-12">
+                                <p><%= announcement.description %></p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p>
+                                    <i>Author
+                                        <a class="btn btn-link collapsed announcement-username" data-toggle="collapse" href="#collapsesubtext" aria-expanded="false" aria-controls="collapsesubtext" title="Show more info">
+                                            <b><%= announcement.author.username %></b>
+                                        </a>
+                                    </i>
+                                </p>
+                                <div class="collapse" id="collapsesubtext">
+                                        <span id="user_info_block">
+                                            <div id="user_info">
+                                                Email: <%= announcement.author.id.email %><br>
+                                                Name: <%= announcement.author.id.firstName%> <%= announcement.author.id.lastName %><br>
+                                                Phone :<%= announcement.author.id.phone %><br>
+                                            </div>
+                                        </span>
+                                </div>
+                                <p class="small">
+                                    <i>Related to location:<br>
+                                        <span class="announcement-location"><%= announcement.location %></span>
+                                    </i>
+                                    <br>
+                                    <br>
+                                    <i> Created
+                                        <span><%= moment(announcement.createdAt).fromNow() %></span>
+                                    </i>
+                                </p>
+                            </div>
+                            <div class="col-sm-3 right-flex">
+                                <% if(loggedInUser && announcement.author.id && announcement.author.id.equals(loggedInUser._id)) {%>
+                                    <div class=" auth-buttons announcement-buttons">
+                                        <a href="/announcements/<%= announcement._id %>/edit"><p class="btn btn-warning">Edit</p></a>
+                                        <form action="/announcements/<%= announcement._id %>?_method=DELETE" method="POST" class="delete-form">
+                                            <input type="submit" class="btn btn-danger" value="Delete">
+                                        </form>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <a class="btn btn-link" data-toggle="collapse" href=".map-block" aria-expanded="true" aria-controls="map-block" title="Show more info">
+                                <button class="btn btn-default show-map">Show map</button>
+                            </a>
+                            
                         </div>
-                    <% } %>
-
-                    <p>
-                        <i>Author
-                            <span class="announcement-username btn btn-link" id="show_hide_user_info"><%= announcement.author.username %></span>
-                        </i>
-                    </p>
-                    <span id="user_info" style="display: none;">
-                        <div>
-                            <%= announcement.author.id.email %><br>
-                            <%= announcement.author.id.firstName%>
-                            <%= announcement.author.id.lastName %><br>
-                            <%= announcement.author.id.phone %><br>
-                        </div>
-                    </span>
-                    <p class="small">
-                        <i> Created
-                            <span><%= moment(announcement.createdAt).fromNow() %></span>
-                        </i>
-                        <br>
-                        <br>
-                        <i>Related to location:<br>
-                            <span class="announcement-location"><%= announcement.location %></span>
-                        </i>
-                    </p>
+                    </div>
                 </div>
             </div>
-            <div class="well">
-                <div class="text-right">
-                    <a class="btn btn-default" href="/announcements/<%=announcement._id%>/comments/new">Add New Comment</a>
-                </div>
-                <hr>
-                <% announcement.comments.forEach(function(comment) { %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <srong><%= comment.author.username %></srong>
-                            <% if(comment.author.id === null) { %>
-                                <span class="not-logged-in-user">Anonim User</span>
+        </div>
+        <div class="col-md-4">
+            <!-- <div class="lead">Allx Travel</div> -->
+            <!-- <div class="list-group">
+                <li class="list-group-item active">Item 1</li>
+                <li class="list-group-item">Item 2</li>
+                <li class="list-group-item">Item 3</li>
+            </div> -->
+            <div class="thumbnail collapse map-block" >
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="thumbnail comment-thumbnail">
+                <div class="caption">
+                    <div class="text-right col-sm-12">
+                        <a class="btn btn-default" href="/announcements/<%=announcement._id%>/comments/new">Add New Comment</a>
+                        <hr>
+                    </div>
+
+                    <% announcement.comments.forEach(function(comment) { %>
+                        <div class="row single-comment">
+                            <div class="col-sm-9">
+                                <srong><b><%= comment.author.username %></b></srong>
+                                <% if(comment.author.id === null) { %>
+                                    <span class="not-logged-in-user">Anonim User</span>
                                 <% } %>
-                                
-                                <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && (comment.author.id && comment.author.id.equals(loggedInUser._id) || announcement.author.id && announcement.author.id.equals(loggedInUser._id))) {%>
-                                    <div class="pull-right auth-buttons comment-buttons">
+                            </div>
+                            <div class="col-sm-3 right-flex">
+                                <span class=""><%= moment(comment.createdAt).fromNow() %></span>
+                                <br>
+                            </div>
+                            <div class="col-sm-9">
+                                <p><%= comment.text %></p>
+                            </div>
+                            <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && (comment.author.id && comment.author.id.equals(loggedInUser._id) || announcement.author.id && announcement.author.id.equals(loggedInUser._id))) {%>
+                                <div class="col-sm-3 right-flex">
+                                    <div class="auth-buttons comment-buttons">
                                         <% if(typeof loggedInUser !== 'undefined' && loggedInUser && loggedInUser._id && comment.author.id && comment.author.id.equals(loggedInUser._id)) { %>
                                             <a href="/announcements/<%=announcement._id%>/comments/<%= comment._id%>/edit" class="btn btn-warning">Edit</a>
                                         <% } %>
@@ -75,15 +110,13 @@
                                             <input type="submit" class="btn btn-danger" value="Delete">
                                         </form>
                                     </div>
-                                <% } %>
-                                <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
-                                    
-                            <p><%= comment.text %></p>
+                                    <hr>
+                                </div>
+                            <% } %>
                         </div>
-                    </div>
-                <% }) %>
+                    <% }) %>
+                </div>
             </div>
-
         </div>
         
     </div>
@@ -94,11 +127,18 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#show_hide_user_info").click(function(){
-            $("#user_info").toggle();
-        });
+        //BLOCK TO SHOW AUTHOR DATA
+        // $("#show_hide_user_info").click(function(){
+        //     $("#user_info_block").toggle();
+        // });
+
+        // //SHOW HIDE MAP
+        // $(".show-map").click(function(){
+        //     $("#map-block").toggle();
+        // });
     });
 </script>
+
 
 <script>
     function initMap() {

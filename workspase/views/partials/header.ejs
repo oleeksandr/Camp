@@ -24,19 +24,20 @@
             </div>
 
             <div class="collapse navbar-collapse" id="trigered-navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right text-left">
                     <% if (!loggedInUser) { %>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/register">Sign Up</a></li>
+                        <li><a href="/login" class="btn">Login</a></li>
+                        <li><a href="/register" class="btn">Sign Up</a></li>
                     <% }else { %>
                         <li><a href="#" class="btn disabled"><%=loggedInUser.username%></a></li>
-                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="/logout" class="btn">Logout</a></li>
                     <% } %>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container">
+    <% if((error && error.length > 0) || (succes && succes.length > 0)) { %>
+    <div class="container" id='allert-messages'>
         <% if(succes && succes.length > 0) { %>
             <div class="alert alert-success">
                     <div class="message"><%= succes %></div>
@@ -47,4 +48,5 @@
             </div>
         <% } %>
     </div>
+    <% } %>
 
