@@ -11,9 +11,9 @@ const check = require('../check');
 //============================================================
 //NEW - SHOW FORM TO CREATE NEW COMMENT IF USER LOGGED IN
 //============================================================
-app.get("/announcements/:id/comments/new", function (req, res) {
+app.get("/announcements/:id/comments/new", (req, res) => {
     //FIND ANNOUNCEMENT BY ID
-    Announcement.findById(req.params.id, function(err, announcement){
+    Announcement.findById(req.params.id, (err, announcement) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found announcement");
@@ -38,9 +38,9 @@ app.get("/announcements/:id/comments/new", function (req, res) {
 //============================================================
 //CREATE - ADD COMMENT TO ANNOUNCEMENT IF USER LOGGED IN
 //============================================================
-app.post("/announcements/:id/comments", function (req, res) {
+app.post("/announcements/:id/comments", (req, res) => {
     //FIND ANNOUNCEMENT BY ID
-    Announcement.findById(req.params.id, function(err, announcement){
+    Announcement.findById(req.params.id, (err, announcement) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found announcement");
@@ -54,7 +54,7 @@ app.post("/announcements/:id/comments", function (req, res) {
             }
             
             //IF ALL IS OK, CREATE COMMENT
-            Comment.create(req.body.comment, function(err, comment){
+            Comment.create(req.body.comment, (err, comment) => {
                 if (err) {
                     //IFF ERROR
                     req.flash('error', "Have some problems with creating Your comment. Please try again");
@@ -88,8 +88,8 @@ app.post("/announcements/:id/comments", function (req, res) {
 //============================================================
 //EDIT - SHOW FORM TO EDIT EXISTING COMMENT
 //============================================================
-app.get("/announcements/:id/comments/:comment_id/edit", check.checkCommentEditePermitions, function(req, res){
-    Announcement.findById(req.params.id, function(err, foundedAnnouncement) {
+app.get("/announcements/:id/comments/:comment_id/edit", check.checkCommentEditePermitions, (req, res) => {
+    Announcement.findById(req.params.id, (err, foundedAnnouncement) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found announcement");
@@ -103,7 +103,7 @@ app.get("/announcements/:id/comments/:comment_id/edit", check.checkCommentEditeP
             }
             
             // console.log("WE GOT DATA ABOUT ANNOUNCEMENT WITH SOME ID FROM DB AND WILL CHECK FOR COMMENT");
-            Comment.findById(req.params.comment_id, function(err, foundComment) {
+            Comment.findById(req.params.comment_id, (err, foundComment) => {
                 if (err) {
                     //IFF ERROR
                     // res.redirect('/announcements/' + req.params.id);
@@ -132,8 +132,8 @@ app.get("/announcements/:id/comments/:comment_id/edit", check.checkCommentEditeP
 //============================================================
 //UPDATE - UPDATE A SPECIFIC COMMENT
 //============================================================
-app.put("/announcements/:id/comments/:comment_id/", check.checkCommentEditePermitions, function(req, res){
-    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
+app.put("/announcements/:id/comments/:comment_id/", check.checkCommentEditePermitions, (req, res) => {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found comment");
@@ -149,8 +149,8 @@ app.put("/announcements/:id/comments/:comment_id/", check.checkCommentEditePermi
 //============================================================
 //DESTROY - DELETE A SPECIFIC COMMENT
 //============================================================
-app.delete("/announcements/:id/comments/:comment_id/", check.checkCommentDeletePermitions, function(req, res){
-    Comment.findByIdAndRemove(req.params.comment_id, function (err) {
+app.delete("/announcements/:id/comments/:comment_id/", check.checkCommentDeletePermitions, (req, res) => {
+    Comment.findByIdAndRemove(req.params.comment_id, (err) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found comment");

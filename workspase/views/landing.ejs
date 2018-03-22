@@ -1,11 +1,117 @@
 <% include partials/header %>
 
 
-<h1>LP</h1>
 
-<p>Welcome to AllX Travel</p>
+<section class="bg-dark text-center" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="mx-auto main">
+                <h1 class="section-heading text-white">AllX</h1>
+                <hr class="text-faded">
+                <p class="text-faded">Welcome to AllX Travel. Here you can join to the travel or create your own</p>
+                <a class="btn btn-primary btn-xl js-scroll-trigger" href="#create">Get Started!</a>
+            </div>
+        </div>
+    </div>
+</section>
 
-<a href="/announcements">View All Announcements</a>
+<section class="text-center" id="create">
+    <div class="container">
+        <div class="main">
+            <h2>Here you can find all you need!</h2>
+            <hr class="">
+            <p class="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem velit nam quo alias quas reiciendis non, laudantium consectetur enim voluptatem mollitia quaerat doloribus dolor officiis sunt debitis, ipsam sed similique.</p>
+            <a class="btn btn-primary btn-xl " href="./announcements/index.ejs">View all!</a>
+        </div>
+    </div>
+</section>
 
+<section class="p-0">
+    <div class="banner-background">
+            <div class="background-image" style="background-image: url(http://images.response.vodafone.com/EloquaImages/clients/VodafoneGroupPLC/%7Bddfa5821-8b35-4413-9027-907b5f34e5d9%7D_5.png)">
+        </div>
+        <div class="container-fluid banner-content spring">
+            <div class="row">
+                <div class="col-md-5 col-lg-5">
+                    <div class="item-box">
+                        <h2 >Meet the network of tomorrow</h2>
+                        <h4 class="heading item-box_text heading--leading">
+                            To grasp opportunities and meet the challenges your enterprise faces on a daily basis,
+                            you need a network that supports the digital workplace, innovation,
+                            and data requirements of a smart business. In a few concise pages,
+                            our Vision Guide has the details.
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="inverse--image p-0">
+    <div class="banner-background">
+        <div class="background-image" style="background-image: url(http://images.response.vodafone.com/EloquaImages/clients/VodafoneGroupPLC/%7Bddfa5821-8b35-4413-9027-907b5f34e5d9%7D_5.png)">
+        </div>
+        <div class="container-fluid banner-content spring">
+            <div class="row">
+                <div class="col-md-5 col-md-push-7">
+                    <div class="item-box">
+                        <h2 >Meet the network of tomorrow</h2>
+                        <h4 class="heading item-box_text heading--leading">
+                            To grasp opportunities and meet the challenges your enterprise faces on a daily basis,
+                            you need a network that supports the digital workplace, innovation,
+                            and data requirements of a smart business. In a few concise pages,
+                            our Vision Guide has the details.
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+          <li data-target="#myCarousel" data-slide-to="3"></li>
+          <li data-target="#myCarousel" data-slide-to="4"></li>
+          <li data-target="#myCarousel" data-slide-to="5"></li>
+        </ol>
+    
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+          <div class="item active">
+            <img src="https://www.chegg.com/play/wp-content/uploads/sites/3/2013/05/Sydney.jpg" alt="Los Angeles" style="width:100%;">
+          </div>
+    
+          <div class="item">
+            <img src="http://tierraeste.com/wp-content/uploads/popular-softwares-games-cartoons-world-most-beautiful-places_371838.jpg" alt="Chicago" style="width:100%;">
+          </div>
+        
+          <div class="item">
+            <img src="https://hbr.org/resources/images/article_assets/2016/01/04-Cities-Looking-to-Harness-Smart-Technologies-Should-Start-Small_960px-x-540px.jpg" alt="New york" style="width:100%;">
+          </div>
+                <div class="item">
+            <img src="https://media.timeout.com/images/103817003/image.jpg" alt="New york" style="width:100%;">
+          </div>
+                <div class="item">
+            <img src="https://i.ytimg.com/vi/5i0CGyXs-_4/maxresdefault.jpg" alt="New york" style="width:100%;">
+          </div>
+        </div>
+    
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+
+<% include partials/scripts %>
 <% include partials/footer %>

@@ -37,6 +37,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+// app.use(express.static(__dirname + "/public/img"));
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/images"));
 
@@ -66,7 +67,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //ADD TO EACH ROUTES INFORMATION ABOUT USER TO "loggedInUser"
-app.use(function(req, res, next){
+app.use((req, res, next) => {
     res.locals.loggedInUser = req.user;
     res.locals.succes = req.flash('succes');
     res.locals.error = req.flash('error');
@@ -94,7 +95,7 @@ app.use(commentRoutes);
 //============================================================
 //WAIT FOR CONECTION TO THE SERWER
 //============================================================
-app.listen(3005, function () {
+app.listen(3005, () => {
     console.log("Server Starded");
     console.log("Port 3005");
 });

@@ -24,9 +24,9 @@ const geocoder = NodeGeocoder(options);
 //============================================================
 //INDEX - SHOW ALL ANNOUNCEMENT
 //============================================================
-app.get("/announcements", function (req, res) {
+app.get("/announcements", (req, res) => {
     //GET ANNOUNCEMENTs DATA FROM DB
-    Announcement.find({}).populate("image").exec( function (err, allAnnouncement) {
+    Announcement.find({}).populate("image").exec((err, allAnnouncement) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found announcements");
@@ -45,7 +45,7 @@ app.get("/announcements", function (req, res) {
 //============================================================
 //CREATE - ADD NEW ANNOUNCEMENT TO BD
 //============================================================
-app.post("/announcements", check.isLoggedIn, function (req, res) {
+app.post("/announcements", check.isLoggedIn, (req, res) => {
     //GET DATA FROM REQUEST 
     const name = req.body.name;
     const cost = req.body.cost;
@@ -54,7 +54,7 @@ app.post("/announcements", check.isLoggedIn, function (req, res) {
         id: req.user.id,
         username: req.user.username
     }
-    geocoder.geocode(req.body.location, function (err, map) {
+    geocoder.geocode(req.body.location, (err, map) => {
         if (err || !map.length) {
             console.log(err);
             req.flash('error', err.message);
@@ -89,7 +89,7 @@ app.post("/announcements", check.isLoggedIn, function (req, res) {
                     };
                 
                     //SAVE NEW OBJECT TO BD
-                    Announcement.create(newAnnouncement, function (err, announcement) {
+                    Announcement.create(newAnnouncement, (err, announcement) => {
                         if (err) {
                             //IFF ERROR
                             req.flash('error', "Have some problems with creating Your announcement. Please try again");
@@ -100,7 +100,7 @@ app.post("/announcements", check.isLoggedIn, function (req, res) {
                                 imagename: announcement.id + '_' + imageName,
                                 extension: extension
                             };
-                            Image.create(newImage, function (err, createdImage) {
+                            Image.create(newImage, (err, createdImage) => {
                                 if (err) {
                                     //IFF ERROR
                                     req.flash('error', "Have some problems creating Your image. Please try again");
@@ -136,17 +136,17 @@ app.post("/announcements", check.isLoggedIn, function (req, res) {
 //============================================================
 //NEW - SHOW FORM TO CREATE NEW ANNOUNCEMENT
 //============================================================
-app.get("/announcements/new", check.isLoggedIn, function (req, res) {
+app.get("/announcements/new", check.isLoggedIn, (req, res) => {
     res.render("announcements/new", {pagename: "Create new anouncement"});
 });
 
 //============================================================
 //SHOW - SHOWS MORE INFO ABOUT A SPECIFIC ANNOUNCEMENT
 //============================================================
-app.get("/announcements/:id", function (req, res) {
+app.get("/announcements/:id", (req, res) => {
 
     //FIND A ANNOUNCEMENT
-    Announcement.findById(req.params.id).populate("comments").populate("author.id").populate("image").exec(function (err, foundedAnnouncement) {
+    Announcement.findById(req.params.id).populate("comments").populate("author.id").populate("image").exec((err, foundedAnnouncement) => {
         if (err) {
             //IFF ERROR
             console.log()
@@ -172,8 +172,8 @@ app.get("/announcements/:id", function (req, res) {
 //============================================================
 //EDIT - SHOW FORM TO EDIT EXISTING ANNOUNCEMENT
 //============================================================
-app.get("/announcements/:id/edit", check.checkPermitions, function(req, res){
-    Announcement.findById(req.params.id, function(err, foundedAnnouncement) {
+app.get("/announcements/:id/edit", check.checkPermitions, (req, res) => {
+    Announcement.findById(req.params.id, (err, foundedAnnouncement) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found announcement");
@@ -198,8 +198,8 @@ app.get("/announcements/:id/edit", check.checkPermitions, function(req, res){
 //============================================================
 //UPDATE - UPDATE A SPECIFIC ANNOUNCEMENT
 //============================================================
-app.put("/announcements/:id/", check.checkPermitions, function(req, res){
-    geocoder.geocode(req.body.location, function (err, data) {
+app.put("/announcements/:id/", check.checkPermitions, (req, res) => {
+    geocoder.geocode(req.body.location, (err, data) => {
         if (err || !data.length) {
           req.flash('error', err.message);
         //   req.flash('error', 'Invalid address');
@@ -219,7 +219,7 @@ app.put("/announcements/:id/", check.checkPermitions, function(req, res){
             lng: lng,
             location:location
         };
-        Announcement.findByIdAndUpdate(req.params.id, updatedAnnouncement, function (err, announcement) {
+        Announcement.findByIdAndUpdate(req.params.id, updatedAnnouncement, (err, announcement) => {
             if (err) {
                 //IFF ERROR
                 req.flash('error', "Cannot found announcement");
@@ -248,7 +248,7 @@ app.put("/announcements/:id/", check.checkPermitions, function(req, res){
                             imagename: announcement.id + '_' + imageName,
                             extension: extension
                         };
-                        Image.create(newImage, function (err, createdImage) {
+                        Image.create(newImage, (err, createdImage) => {
                             if (err) {
                                 //IFF ERROR
                                 req.flash('error', "Have some problems creating Your image. Please try again");
@@ -285,8 +285,8 @@ app.put("/announcements/:id/", check.checkPermitions, function(req, res){
 //============================================================
 //DESTROY - DELETE A SPECIFIC ANNOUNCEMENT
 //============================================================
-app.delete("/announcements/:id/", check.checkPermitions, function(req, res){
-    Announcement.findByIdAndRemove(req.params.id, function (err) {
+app.delete("/announcements/:id/", check.checkPermitions, (req, res) => {
+    Announcement.findByIdAndRemove(req.params.id, (err) => {
         if (err) {
             //IFF ERROR
             req.flash('error', "Cannot found announcement");
