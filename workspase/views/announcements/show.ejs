@@ -1,5 +1,4 @@
 <% include ../partials/header %>
-<div class="fixnav"></div>
 <div class="container">
     <div class="row">
 
@@ -11,7 +10,7 @@
                     <div class="post-info">
                         <div class="row">
                             <div class="col-sm-9">
-                                <h4><a href="#"><%= announcement.name %></a></h4>
+                                <h4><i><%= announcement.name %></i></h4>
                             </div>
                             <div class="col-sm-3">
                                 <h4 class="">$<%= announcement.cost %> / person</h4>
@@ -20,6 +19,10 @@
                                 <p><%= announcement.description %></p>
                             </div>
                             <div class="col-sm-9">
+                                <p>
+                                    <i>From: <b id="startDate"></b></i>&emsp;
+                                    <i>To: <b id="endDate"></b></i>
+                                </p>
                                 <p>
                                     <i>Author
                                         <a class="btn btn-link collapsed announcement-username" data-toggle="collapse" href="#collapsesubtext" aria-expanded="false" aria-controls="collapsesubtext" title="Show more info">
@@ -37,10 +40,9 @@
                                         </span>
                                 </div>
                                 <p class="small">
-                                    <i>Related to location:<br>
+                                    <i>Related to location:
                                         <span class="announcement-location"><%= announcement.location %></span>
                                     </i>
-                                    <br>
                                     <br>
                                     <i> Created
                                         <span><%= moment(announcement.createdAt).fromNow() %></span>
@@ -50,7 +52,7 @@
                             <div class="col-sm-3 right-flex">
                                 <% if(loggedInUser && announcement.author.id && announcement.author.id.equals(loggedInUser._id)) {%>
                                     <div class=" auth-buttons announcement-buttons">
-                                        <a href="/announcements/<%= announcement._id %>/edit"><p class="btn btn-warning">Edit</p></a>
+                                        <a href="/announcements/<%= announcement._id %>/edit" class="btn btn-warning">Edit</a>
                                         <form action="/announcements/<%= announcement._id %>?_method=DELETE" method="POST" class="delete-form">
                                             <input type="submit" class="btn btn-danger" value="Delete">
                                         </form>
@@ -126,16 +128,14 @@
 <% include ../partials/scripts %>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        //BLOCK TO SHOW AUTHOR DATA
-        // $("#show_hide_user_info").click(function(){
-        //     $("#user_info_block").toggle();
-        // });
-
-        // //SHOW HIDE MAP
-        // $(".show-map").click(function(){
-        //     $("#map-block").toggle();
-        // });
+    $(function() {
+        const startDatestr = new Date('<%= announcement.startDate %>');
+        const startDate = ( '0' + startDatestr.getDate() ).slice(-2) + '/' + ( '0' + (startDatestr.getMonth()+1) ).slice(-2) + '/' + startDatestr.getFullYear();
+        const endDatestr = new Date('<%= announcement.endDate %>');
+        const endDate = ( '0' + endDatestr.getDate() ).slice(-2) + '/' + ( '0' + (endDatestr.getMonth()+1) ).slice(-2) + '/' + endDatestr.getFullYear();
+        $('#startDate').text(startDate);
+        $('#endDate').text(endDate);
+        console.log($('#endDate').val(endDate));
     });
 </script>
 

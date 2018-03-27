@@ -7,7 +7,7 @@ const User = require('../models/user');
 //LANDING PAGE OF Allx travel
 //============================================================
 app.get("/", (req, res) => {
-    res.render("landing", {pagename: "Allx Travel"});
+    res.render("landing", {pagename: "Allx Travel", fixnav: "fixnav"});
 });
 
 //============================================================

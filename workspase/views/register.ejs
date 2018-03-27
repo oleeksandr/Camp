@@ -1,9 +1,8 @@
 <% include ./partials/header %>
-<div class="fixnav"></div>
-<div class="container">
+<div class="container fom-size">
     <div class="row">
         <h1 style="text-align: center;">Sign UP</h1>
-        <div style="width: 30%; margin: 25px auto;">     
+        <div class="col-xs-10 col-xs-push-1 col-sm-8 col-sm-push-2">     
             <form action="/register" method="POST">
                 <div class="form-group">
                     <input class="form-control"  type="email" name="email" placeholder="Email" required>
@@ -27,7 +26,7 @@
                     <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
                 </div>
             </form>
-            <a href="/announcements">Go Back</a>
+            <a href="/">Go to main page</a>
         </div>
     </div>
 </div>

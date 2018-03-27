@@ -14,6 +14,8 @@ const announcementSchema = new mongoose.Schema({
     lng: Number,
     cost: Number,
     createdAt: { type: Date, default: Date.now },
+    startDate: { type: Date, default: Date.now },
+    endDate: { type: Date, default: Date.now },
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,

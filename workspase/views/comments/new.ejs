@@ -1,9 +1,8 @@
 <% include ../partials/header %>
-<div class="fixnav"></div>
-<div class="container">
+<div class="container form-size">
     <div class="row">
         <h1 style="text-align: center;">Add New Commnts to <%= announcement.name %> Page</h1>
-        <div style="width: 30%; margin: 25px auto;">        
+        <div class="col-xs-10 col-xs-push-1 col-sm-8 col-sm-push-2">      
             <form action="/announcements/<%= announcement._id %>/comments" method="POST">
                
                 <% if (!loggedInUser){ %>

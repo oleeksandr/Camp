@@ -1,9 +1,8 @@
 <% include ../partials/header %>
-<div class="fixnav"></div>
-<div class="container">
+<div class="container form-size">
     <div class="row">
         <h1 style="text-align: center;">Create a New Announcement</h1>
-        <div style="width: 30%; margin: 25px auto;">        
+        <div class="col-xs-10 col-xs-push-1 col-sm-8 col-sm-push-2">         
             <form action="/announcements" method="POST" encType="multipart/form-data">
                
                 <div class="form-group"> 
@@ -20,6 +19,10 @@
                     <input class="form-control" type="text" name="location" id="location" placeholder="Some location" required>
                 </div>
                 <div class="form-group">
+                    <label for="daterange">Date range</label>
+                    <input class="form-control" type="text" name="daterange">
+                </div>
+                <div class="form-group">
                     <input type="file" name="image" accept=".jpg, .jpeg, .png" required>
                 </div>
                 <p class="valid_image"></p>
@@ -33,4 +36,16 @@
     </div>
 </div>
 <% include ../partials/image_validation %>
+<% include ../partials/scripts %>
+
+<script type="text/javascript">
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+        });
+    });
+</script>
+
 <% include ../partials/footer %>

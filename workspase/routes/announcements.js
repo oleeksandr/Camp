@@ -53,7 +53,10 @@ app.post("/announcements", check.isLoggedIn, (req, res) => {
     const author = {
         id: req.user.id,
         username: req.user.username
-    }
+    };
+    const startDate = new Date(req.body.daterange.split(' - ')[0]);
+    const endDate = new Date(req.body.daterange.split(' - ')[0]);
+
     geocoder.geocode(req.body.location, (err, map) => {
         if (err || !map.length) {
             console.log(err);
@@ -80,9 +83,11 @@ app.post("/announcements", check.isLoggedIn, (req, res) => {
 
                     const newAnnouncement = {
                         name: name,
-                        cost:cost,
+                        cost: cost,
                         description: description,
                         author: author,
+                        startDate: startDate,
+                        endDate: endDate,
                         lat: lat,
                         lng: lng,
                         location: location
@@ -149,7 +154,6 @@ app.get("/announcements/:id", (req, res) => {
     Announcement.findById(req.params.id).populate("comments").populate("author.id").populate("image").exec((err, foundedAnnouncement) => {
         if (err) {
             //IFF ERROR
-            console.log()
             req.flash('error', "Cannot found announcement");
             res.redirect("/announcements")
         } else {
@@ -211,10 +215,14 @@ app.put("/announcements/:id/", check.checkPermitions, (req, res) => {
         const name = req.body.name;
         const cost = req.body.cost;
         const description = req.body.description;
+        const startDate = new Date(req.body.daterange.split(' - ')[0]);
+        const endDate = new Date(req.body.daterange.split(' - ')[0]);
         const updatedAnnouncement = {
             name: name,
             cost:cost,
             description: description,
+            startDate: startDate,
+            endDate: endDate,
             lat: lat,
             lng: lng,
             location:location
