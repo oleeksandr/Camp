@@ -54,9 +54,12 @@ app.post("/announcements", check.isLoggedIn, (req, res) => {
         id: req.user.id,
         username: req.user.username
     };
-    const startDate = new Date(req.body.daterange.split(' - ')[0]);
-    const endDate = new Date(req.body.daterange.split(' - ')[0]);
-
+    const startStr = req.body.daterange.split(' - ')[0].split('/');
+    const endStr = req.body.daterange.split(' - ')[1].split('/');
+    const startDate = new Date(startStr[2],startStr[0],startStr[1]);
+    const endDate = new Date(endStr[2],endStr[0],endStr[1]);;
+console.log(endStr);
+console.log(endDate);
     geocoder.geocode(req.body.location, (err, map) => {
         if (err || !map.length) {
             console.log(err);
@@ -97,6 +100,7 @@ app.post("/announcements", check.isLoggedIn, (req, res) => {
                     Announcement.create(newAnnouncement, (err, announcement) => {
                         if (err) {
                             //IFF ERROR
+                            console.log(err);
                             req.flash('error', "Have some problems with creating Your announcement. Please try again");
                             res.redirect('back');
                         } else {
