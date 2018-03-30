@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Custom styles for this template -->
-    <link href="stylesheets/creative.css" rel="stylesheet">
+    <link href="/stylesheets/creative.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
 
     <link rel="stylesheet" href="/stylesheets/main.css">
@@ -47,6 +47,8 @@
     </nav>
     <% if (typeof fixnav === 'undefined') { %>
     <div class="fixnav"></div>
+    <% } else { %>
+    <div class="absolute-message">
     <% } %>
     <% if((error && error.length > 0) || (succes && succes.length > 0)) { %>
     <div class="container" id='allert-messages'>
@@ -60,5 +62,8 @@
             </div>
         <% } %>
     </div>
+    <% } %>
+    <% if (typeof fixnav !== 'undefined') { %>
+        </div>
     <% } %>
 

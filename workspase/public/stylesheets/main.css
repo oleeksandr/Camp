@@ -5,6 +5,12 @@
     background-size: cover;
 }
 
+.absolute-message{
+    position: absolute;
+    top: 80px;
+    width: 100%;
+}
+
 .p-0{
     padding: 0px;
 }

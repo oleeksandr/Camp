@@ -54,12 +54,12 @@ app.post("/announcements", check.isLoggedIn, (req, res) => {
         id: req.user.id,
         username: req.user.username
     };
+    
     const startStr = req.body.daterange.split(' - ')[0].split('/');
     const endStr = req.body.daterange.split(' - ')[1].split('/');
-    const startDate = new Date(startStr[2],startStr[0],startStr[1]);
-    const endDate = new Date(endStr[2],endStr[0],endStr[1]);;
-console.log(endStr);
-console.log(endDate);
+    const startDate = new Date(startStr[2],startStr[1]-1,startStr[0]);
+    const endDate = new Date(endStr[2],endStr[1]-1,endStr[0]);
+
     geocoder.geocode(req.body.location, (err, map) => {
         if (err || !map.length) {
             console.log(err);
@@ -219,8 +219,12 @@ app.put("/announcements/:id/", check.checkPermitions, (req, res) => {
         const name = req.body.name;
         const cost = req.body.cost;
         const description = req.body.description;
-        const startDate = new Date(req.body.daterange.split(' - ')[0]);
-        const endDate = new Date(req.body.daterange.split(' - ')[0]);
+
+        const startStr = req.body.daterange.split(' - ')[0].split('/');
+        const endStr = req.body.daterange.split(' - ')[1].split('/');
+        const startDate = new Date(startStr[2],startStr[1]-1,startStr[0]);
+        const endDate = new Date(endStr[2],endStr[1]-1,endStr[0]);
+
         const updatedAnnouncement = {
             name: name,
             cost:cost,
